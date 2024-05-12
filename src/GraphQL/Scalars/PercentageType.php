@@ -15,13 +15,12 @@ use Worksome\Number\Percentage;
 
 final class PercentageType extends ScalarType
 {
-    public string|null $description = <<<TXT
+    public ?string $description = <<<'TXT'
         The `Percentage` scalar type represents a percentage.
         TXT;
 
     /**
-     * @param string|int|float $value
-     *
+     * @param  string|int|float  $value
      * @return float
      *
      * @throws Error
@@ -32,8 +31,7 @@ final class PercentageType extends ScalarType
     }
 
     /**
-     * @param string|int|float $value
-     *
+     * @param  string|int|float  $value
      * @return float
      *
      * @throws Error
@@ -50,7 +48,7 @@ final class PercentageType extends ScalarType
     public function parseLiteral(Node $valueNode, ?array $variables = null)
     {
         if (! $valueNode instanceof IntValueNode && ! $valueNode instanceof FloatValueNode) {
-            throw new Error("Query error: Can only parse integer or float. Got: " . $valueNode->kind, [$valueNode]);
+            throw new Error('Query error: Can only parse integer or float. Got: '.$valueNode->kind, [$valueNode]);
         }
 
         return Percentage::of($valueNode->value)->toFloat();

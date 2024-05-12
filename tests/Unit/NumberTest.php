@@ -63,12 +63,12 @@ it('is immutable', function () {
     expect($number->getValue())->toEqual(BigDecimal::of(123456));
 });
 
-it('can handle rounding numbers', function (int|null $mode, int $result, Number|null $existing = null) {
+it('can handle rounding numbers', function (?int $mode, int $result, ?Number $existing = null) {
     $number = $existing instanceof Number ? Number::of($existing) : Number::of(1000, $mode);
 
     expect(Number::of($number, $mode)->div(Number::of(3, $mode), 0)->getValue()->toInt())->toEqual($result);
 })->with([
-     'existing' => [null, 334, Number::of(1000, RoundingMode::UP)],
+    'existing' => [null, 334, Number::of(1000, RoundingMode::UP)],
     // 'default' => [null, 334],
     // 'unnecessary' => [RoundingMode::UNNECESSARY, 334],
     'rounding up' => [RoundingMode::UP, 334],
