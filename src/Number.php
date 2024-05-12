@@ -4,177 +4,105 @@ declare(strict_types=1);
 
 namespace Worksome\Number;
 
-use Brick\Math\BigDecimal;
-use Brick\Math\BigNumber;
-use Brick\Math\RoundingMode;
-use InvalidArgumentException;
+use BCMath;
+use Illuminate\Support\Traits\Macroable;
 
+/** @mixin BCMath\Number */
 class Number
 {
-    protected const ALLOWED_ROUNDING_MODES = [
-        RoundingMode::UNNECESSARY, RoundingMode::UP, RoundingMode::DOWN, RoundingMode::HALF_UP, RoundingMode::HALF_DOWN,
-        RoundingMode::HALF_CEILING, RoundingMode::HALF_FLOOR, RoundingMode::HALF_EVEN,
-    ];
+    use Macroable {
+        __call as macroCall;
+    }
 
-    final protected function __construct(protected BigDecimal $value, protected int $roundingMode)
-    {
+    public readonly BCMath\Number $value;
+
+    public function __construct(
+        Number|BCMath\Number|string|int $value,
+    ) {
+        $this->value = match (true) {
+            $value instanceof BCMath\Number => $value,
+            $value instanceof Number => $value->value,
+            default => new BCMath\Number($value),
+        };
+
         $this->validate();
     }
 
-    /** @see RoundingMode for available rounding mode constants */
-    public static function of(string|int|float|BigNumber|Number $value, ?int $roundingMode = null): static
+    public static function of(Number|BCMath\Number|string|int|float $value): Number
     {
-        if ($value instanceof Number && $roundingMode === null) {
-            $roundingMode = $value->getRoundingMode();
-        }
-
-        if ($roundingMode === null) {
-            $roundingMode = RoundingMode::HALF_EVEN;
-        }
-
-        if (! in_array($roundingMode, self::ALLOWED_ROUNDING_MODES)) {
-            throw new InvalidArgumentException("An invalid rounding mode \"{$roundingMode}\" was provided");
-        }
-
-        if ($value instanceof BigNumber) {
-            return new static($value->toBigDecimal(), $roundingMode);
-        }
-
         if ($value instanceof Number) {
-            return new static($value->getValue(), $roundingMode);
+            return new Number($value->value);
         }
 
-        return new static(BigDecimal::of($value), $roundingMode);
+        if ($value instanceof BCMath\Number) {
+            return new Number($value);
+        }
+
+        if (is_int($value)) {
+            return new Number($value);
+        }
+
+        return new Number(new BCMath\Number((string) $value));
     }
 
-    public function add(string|int|float|BigNumber|Number $value): Number
+    public function percentage(Number $number): Number
     {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return static::of($this->value->plus($value->value));
-    }
-
-    public function sub(string|int|float|BigNumber|Number $value): Number
-    {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return static::of($this->value->minus($value->value));
-    }
-
-    public function mul(string|int|float|BigNumber|Number $value): Number
-    {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return static::of($this->value->multipliedBy($value->value));
-    }
-
-    public function div(string|int|float|BigNumber|Number $value, int $decimalPlaces = 2): Number
-    {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return static::of($this->value->dividedBy($value->value, $decimalPlaces, $this->getRoundingMode()));
-    }
-
-    public function percentage(string|int|float|BigNumber|Number $value): Number
-    {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return static::of($this->value->exactlyDividedBy(100)->multipliedBy($value->value));
+        return $this->value->div(100)->mul($number);
     }
 
     public function negate(): Number
     {
-        return static::of($this->value->negated());
+        return new Number("-{$this->value}");
     }
 
-    public function isLessThan(string|int|float|BigNumber|Number $value): bool
+    public function isEqualTo(Number $value): bool
     {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return $this->value->isLessThan($value->getValue());
+        return $this->value->eq($value->value);
     }
 
-    public function isLessThanOrEqualTo(string|int|float|BigNumber|Number $value): bool
+    public function isLessThan(Number $value): bool
     {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return $this->value->isLessThanOrEqualTo($value->getValue());
+        return $this->value->lt($value->value);
     }
 
-    public function isGreaterThan(string|int|float|BigNumber|Number $value): bool
+    public function isLessThanOrEqualTo(Number $value): bool
     {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return $this->value->isGreaterThan($value->getValue());
+        return $this->value->lte($value);
     }
 
-    public function isGreaterThanOrEqualTo(string|int|float|BigNumber|Number $value): bool
+    public function isGreaterThan(Number $value): bool
     {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return $this->value->isGreaterThanOrEqualTo($value->getValue());
+        return $this->value->gt($value->value);
     }
 
-    public function isEqualTo(string|int|float|BigNumber|Number $value): bool
+    public function isGreaterThanOrEqualTo(Number $value): bool
     {
-        if (! $value instanceof Number) {
-            $value = Number::of($value);
-        }
-
-        return $this->value->isEqualTo($value->getValue());
+        return $this->value->gte($value);
     }
 
     public function isZero(): bool
     {
-        return $this->value->isZero();
+        return $this->value->eq(0);
     }
 
     public function isNegative(): bool
     {
-        return $this->value->isNegative();
+        return $this->value->lt(0);
     }
 
     public function isNegativeOrZero(): bool
     {
-        return $this->value->isNegativeOrZero();
+        return $this->isZero() || $this->isNegative();
     }
 
     public function isPositive(): bool
     {
-        return $this->value->isPositive();
+        return $this->value->gt(0);
     }
 
     public function isPositiveOrZero(): bool
     {
-        return $this->value->isPositiveOrZero();
-    }
-
-    public function getValue(): BigDecimal
-    {
-        return $this->value;
-    }
-
-    public function getRoundingMode(): int
-    {
-        return $this->roundingMode;
+        return $this->isZero() || $this->isPositive();
     }
 
     public function toString(): string
@@ -184,17 +112,29 @@ class Number
 
     public function toFloat(): float
     {
-        return $this->value->toFloat();
+        return (float) $this->value;
     }
 
+    /** @TODO: This should be moved to a money package. */
     public function inCents(): int
     {
-        return $this->mul(100)->getValue()->toInt();
+        return (int) $this->value->mul(100);
     }
 
     public function __toString(): string
     {
         return $this->toString();
+    }
+
+    public function __call($method, $parameters): mixed
+    {
+        if (method_exists($this->value, $method)) {
+            $value = $this->value->{$method}(...$parameters);
+
+            return $value instanceof BCMath\Number ? new Number($value) : $value;
+        }
+
+        return $this->macroCall($method, $parameters);
     }
 
     protected function validate(): void

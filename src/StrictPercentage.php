@@ -10,7 +10,7 @@ class StrictPercentage extends Percentage
 {
     protected function validate(): void
     {
-        if ($this->value->isLessThan(0) || $this->value->isGreaterThan(100)) {
+        if ($this->isLessThan(0) || $this->isGreaterThan(100)) {
             throw new InvalidValueException(
                 sprintf(
                     'The provided value "%s" is not a valid percentage',
