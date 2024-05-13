@@ -60,7 +60,7 @@ trait HasStatistics
         /** @var ?int $min */
         $min = array_reduce(
             $numbers,
-            fn (?int $min, Number|BCNumber|string|int|float $num) => (int) min(
+            fn (int|null $min, Number|BCNumber|string|int|float $num) => (int) min(
                 $min ?? INF,
                 static::of($num)->getScale()
             ), /** @phpstan-ignore-line */

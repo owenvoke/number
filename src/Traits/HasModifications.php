@@ -48,7 +48,7 @@ trait HasModifications
         return $this->mul($times);
     }
 
-    public function reduceTenfold(Number|BCNumber|string|int|float $times = 1, ?int $scale = null): static
+    public function reduceTenfold(Number|BCNumber|string|int|float $times = 1, int|null $scale = null): static
     {
         $times = static::of($times);
 
