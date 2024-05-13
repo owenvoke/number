@@ -36,7 +36,7 @@ trait HasCleaning
     }
 
     /**
-     * Remove trailing zero decimals
+     * Remove any and all trailing zero decimals
      */
     public function truncate(): static
     {
