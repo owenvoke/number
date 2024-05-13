@@ -13,6 +13,8 @@ use Worksome\Number\Number;
 trait ProxiesToNumber
 {
     /**
+     * Increase this number by the given number
+     *
      * @param int<1, 4> $roundingMode
      */
     public function add(
@@ -26,6 +28,8 @@ trait ProxiesToNumber
     }
 
     /**
+     * Subtract this number by the given number
+     *
      * @param int<1, 4> $roundingMode
      */
     public function sub(
@@ -39,6 +43,8 @@ trait ProxiesToNumber
     }
 
     /**
+     * Multiply this number by the given number
+     *
      * @param int<1, 4> $roundingMode
      */
     public function mul(
@@ -52,6 +58,8 @@ trait ProxiesToNumber
     }
 
     /**
+     * Divide this number by the given number
+     *
      * @param int<1, 4> $roundingMode
      */
     public function div(
@@ -65,6 +73,8 @@ trait ProxiesToNumber
     }
 
     /**
+     * Reduce this number by the given modulus
+     *
      * @param int<1, 4> $roundingMode
      */
     public function mod(
@@ -77,6 +87,10 @@ trait ProxiesToNumber
         return static::of($this->value->mod($num, $scale, $roundingMode));
     }
 
+    /**
+     * Get the power of this number and given exponent and reduce by the
+     * given modulus
+     */
     public function powmod(
         Number|BCNumber|string|int|float $exponent,
         Number|BCNumber|string|int|float $modulus,
@@ -88,6 +102,8 @@ trait ProxiesToNumber
     }
 
     /**
+     * Get the power of this number and given exponent
+     *
      * @param int<1, 4> $roundingMode
      */
     public function pow(
@@ -102,6 +118,8 @@ trait ProxiesToNumber
     }
 
     /**
+     * Get the square root of this number.
+     *
      * @param int<1, 4> $roundingMode
      */
     public function sqrt(int|null $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
@@ -109,17 +127,25 @@ trait ProxiesToNumber
         return static::of($this->value->sqrt($scale, $roundingMode));
     }
 
+    /**
+     * Round this number down to the nearest whole integer
+     */
     public function floor(): static
     {
         return static::of($this->value->floor());
     }
 
+    /**
+     * Round this number up to the nearest whole integer
+     */
     public function ceil(): static
     {
         return static::of($this->value->ceil());
     }
 
     /**
+     * Round this number to the given precision
+     *
      * @param int<1, 4> $mode
      */
     public function round(int $precision = 0, int $mode = PHP_ROUND_HALF_UP): static
@@ -127,6 +153,9 @@ trait ProxiesToNumber
         return static::of($this->value->round($precision, $mode));
     }
 
+    /**
+     * Compare this number with the given number.
+     */
     public function comp(Number|BCNumber|string|int|float $num, int|null $scale = null): int
     {
         $num = $this->prepareArgumentForBCNumber($num);
@@ -134,6 +163,9 @@ trait ProxiesToNumber
         return $this->value->comp($num, $scale);
     }
 
+    /**
+     * Check if this number is equal to the given number.
+     */
     public function eq(Number|BCNumber|string|int|float $num, int|null $scale = null): bool
     {
         $num = $this->prepareArgumentForBCNumber($num);
@@ -141,6 +173,9 @@ trait ProxiesToNumber
         return $this->value->eq($num, $scale);
     }
 
+    /**
+     * Check if this number is greater than the given number.
+     */
     public function gt(Number|BCNumber|string|int|float $num, int|null $scale = null): bool
     {
         $num = $this->prepareArgumentForBCNumber($num);
@@ -148,6 +183,9 @@ trait ProxiesToNumber
         return $this->value->gt($num, $scale);
     }
 
+    /**
+     * Check if this number is greater than or equal to the given number.
+     */
     public function gte(Number|BCNumber|string|int|float $num, int|null $scale = null): bool
     {
         $num = $this->prepareArgumentForBCNumber($num);
@@ -155,6 +193,9 @@ trait ProxiesToNumber
         return $this->value->gte($num, $scale);
     }
 
+    /**
+     * Check if this number is less than the given number.
+     */
     public function lt(Number|BCNumber|string|int|float $num, int|null $scale = null): bool
     {
         $num = $this->prepareArgumentForBCNumber($num);
@@ -162,6 +203,9 @@ trait ProxiesToNumber
         return $this->value->lt($num, $scale);
     }
 
+    /**
+     * Check if this number is less than or equal to the given number.
+     */
     public function lte(Number|BCNumber|string|int|float $num, int|null $scale = null): bool
     {
         $num = $this->prepareArgumentForBCNumber($num);
@@ -170,6 +214,10 @@ trait ProxiesToNumber
     }
 
     /**
+     * Perform a number format
+     *
+     * @see number_format()
+     *
      * @param int<1, 4> $roundingMode
      */
     public function format(
