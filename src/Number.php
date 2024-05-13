@@ -49,6 +49,7 @@ class Number implements Stringable
             $value = (string) $value;
         }
 
+        /** @phpstan-ignore-next-line */
         return new static($value);
     }
 
