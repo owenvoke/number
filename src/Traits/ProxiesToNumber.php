@@ -77,8 +77,10 @@ trait ProxiesToNumber
         return static::of($this->value->mod($num, $scale, $roundingMode));
     }
 
-    public function powmod(Number|BCNumber|string|int|float $exponent, Number|BCNumber|string|int|float $modulus): static
-    {
+    public function powmod(
+        Number|BCNumber|string|int|float $exponent,
+        Number|BCNumber|string|int|float $modulus,
+    ): static {
         $exponent = $this->prepareArgumentForBCNumber($exponent);
         $modulus = $this->prepareArgumentForBCNumber($modulus);
 

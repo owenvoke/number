@@ -16,7 +16,7 @@ trait HasStatistics
     public static function sum(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
-        if (!isset($numbers[0])) {
+        if (! isset($numbers[0])) {
             throw AtLeastOneNumberRequiredException::method(__FUNCTION__);
         }
 
@@ -33,7 +33,7 @@ trait HasStatistics
     public static function maxScale(Number|BCNumber|string|int|float ...$numbers): int
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
-        if (!isset($numbers[0])) {
+        if (! isset($numbers[0])) {
             throw AtLeastOneNumberRequiredException::method(__FUNCTION__);
         }
 
@@ -53,7 +53,7 @@ trait HasStatistics
     public static function minScale(Number|BCNumber|string|int|float ...$numbers): int
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
-        if (!isset($numbers[0])) {
+        if (! isset($numbers[0])) {
             throw AtLeastOneNumberRequiredException::method(__FUNCTION__);
         }
 
@@ -73,7 +73,7 @@ trait HasStatistics
     public static function mean(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
-        if (!isset($numbers[0])) {
+        if (! isset($numbers[0])) {
             throw AtLeastOneNumberRequiredException::method(__FUNCTION__);
         }
 
@@ -88,7 +88,7 @@ trait HasStatistics
     public static function median(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
-        if (!isset($numbers[0])) {
+        if (! isset($numbers[0])) {
             throw AtLeastOneNumberRequiredException::method(__FUNCTION__);
         }
 
@@ -118,7 +118,7 @@ trait HasStatistics
     public static function minimum(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
-        if (!isset($numbers[0])) {
+        if (! isset($numbers[0])) {
             throw AtLeastOneNumberRequiredException::method(__FUNCTION__);
         }
 
@@ -137,7 +137,7 @@ trait HasStatistics
     public static function maximum(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
-        if (!isset($numbers[0])) {
+        if (! isset($numbers[0])) {
             throw AtLeastOneNumberRequiredException::method(__FUNCTION__);
         }
 
