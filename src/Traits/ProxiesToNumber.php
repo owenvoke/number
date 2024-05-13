@@ -189,12 +189,12 @@ trait ProxiesToNumber
      */
     protected function prepareArgumentForBCNumber(Number|BCNumber|string|int|float $num): BCNUmber|string|int
     {
-        if ($num instanceof Number) {
-            return $num->value;
+        if (is_float($num)) {
+            return static::of($num)->value;
         }
 
-        if (is_float($num)) {
-            return (string) $num;
+        if ($num instanceof Number) {
+            return $num->value;
         }
 
         return $num;

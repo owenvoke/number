@@ -11,26 +11,45 @@ use Worksome\Number\Number;
  */
 trait HasOutputTo
 {
+    /**
+     * Cast the number object to string.
+     */
     public function __toString(): string
     {
         return $this->toString();
     }
 
+    /**
+     * Get the string value of this number
+     */
     public function toString(): string
     {
         return $this->value->value;
     }
 
+    /**
+     * Get the integer value of this number
+     */
     public function toInteger(): int
     {
         return (int) $this->value->value;
     }
 
+    /**
+     * Get the float value of this number
+     */
     public function toFloat(): float
     {
         return (float) $this->value->value;
     }
 
+    /**
+     * Get the Roman Numerals equivalent of this value.
+     *
+     * Not super great for values far beyond 1 million. Romans rarely used
+     * numerals for depicting such large numbers -- apparently often used
+     * words instead.
+     */
     public function toRomanNumerals(): string
     {
         $num = $this->toInteger();
@@ -69,7 +88,10 @@ trait HasOutputTo
         return $roman;
     }
 
-    public function getDecimal(): static
+    /**
+     * Get the decimal portion of this number
+     */
+    public function extractDecimal(): static
     {
         [$whole, $decimal] = static::parseFragments($this->value);
 
@@ -80,7 +102,10 @@ trait HasOutputTo
         return static::of($decimal);
     }
 
-    public function getInteger(): static
+    /**
+     * Get the integer portion of this number
+     */
+    public function extractInteger(): static
     {
         [$whole, $decimal] = static::parseFragments($this->value);
 

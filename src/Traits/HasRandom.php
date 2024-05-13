@@ -14,6 +14,12 @@ trait HasRandom
 {
     public const RANDOM_NUMBER_SCALE = 100;
 
+    /**
+     * Generate a random number between the min and max numbers (inclusive).
+     *
+     * If the min and max and are beyond PHP's MIN and MAX INT limits then
+     * a custom random number generator is used.
+     */
     public static function random(
         Number|BCNumber|string|int|float $min = PHP_INT_MIN,
         Number|BCNumber|string|int|float $max = PHP_INT_MAX,
@@ -47,6 +53,9 @@ trait HasRandom
         return $random;
     }
 
+    /**
+     * Generate a random decimal between the given min and max numbers (inclusive)
+     */
     public static function randomDecimal(
         Number|BCNumber|string|int|float $min = PHP_INT_MIN,
         Number|BCNumber|string|int|float $max = PHP_INT_MAX,
@@ -62,8 +71,8 @@ trait HasRandom
 
         $scale = static::maxScale($min, $max);
 
-        $min = $min->toScale($scale)->raiseTenfold($scale)->truncate();
-        $max = $max->toScale($scale)->raiseTenfold($scale)->truncate();
+        $min = $min->increaseScale($scale)->raiseTenfold($scale)->truncate();
+        $max = $max->increaseScale($scale)->raiseTenfold($scale)->truncate();
 
         $random = static::random($min, $max);
         $decimal = $random->reduceTenfold($scale, $scale);

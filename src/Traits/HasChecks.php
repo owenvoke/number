@@ -229,8 +229,8 @@ trait HasChecks
      */
     public function isSameDecimal(Number|BCNumber|string|int|float $other): bool
     {
-        $thisValue = $this->truncate()->getDecimal();
-        $thatValue = static::of($other)->truncate()->getDecimal();
+        $thisValue = $this->truncate()->extractDecimal();
+        $thatValue = static::of($other)->truncate()->extractDecimal();
 
         return $thisValue->eq($thatValue);
     }

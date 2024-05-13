@@ -13,20 +13,34 @@ trait HasShortcuts
 
     public const E = '2.71828182845904523536028747135266249775724709369995';
 
+    public const ZERO = '0';
+
+    public const ONE = '1';
+
+    public const TEN = '10';
+
     /**
      * Get zero as a number
      */
     public static function zero(): static
     {
-        return static::of(0);
+        return static::of(static::ZERO);
     }
 
     /**
-     * Get 1 as a number
+     * Get one as a number
      */
     public static function one(): static
     {
-        return static::of(1);
+        return static::of(static::ONE);
+    }
+
+    /**
+     * Get ten as a number
+     */
+    public static function ten(): static
+    {
+        return static::of(static::TEN);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Worksome\Number;
 
 use BCMath\Number as BCNumber;
 use Illuminate\Support\Traits\Macroable;
+use InvalidArgumentException;
 use Stringable;
 
 class Number implements Stringable
@@ -26,12 +27,6 @@ class Number implements Stringable
 
     public const THOUSANDS_SEPARATOR = '';
 
-    public const ZERO = '0';
-
-    public const ONE = '1';
-
-    public const TEN = '10';
-
     public BCNumber $value;
 
     public function __construct(
@@ -45,7 +40,7 @@ class Number implements Stringable
     public static function of(Number|BCNumber|string|int|float $value): static
     {
         if (is_float($value)) {
-            $value = (string) $value;
+            $value = static::floatToString($value);
         }
 
         /** @phpstan-ignore-next-line */
@@ -93,5 +88,32 @@ class Number implements Stringable
             $wholeNumber,
             $decimalNumber,
         ];
+    }
+
+    protected static function floatToString(float $number, null|int $precision = null): string
+    {
+        if ($precision === null) {
+            $precision = (int) ini_get('precision');
+        }
+
+        if (!preg_match(
+            '/^(-?)(\d)\.(\d+)e([+-]\d+)$/',
+            sprintf('%.' . ($precision - 1) . 'e', (float) $number),
+            $match
+        )) {
+            throw new InvalidArgumentException(
+                sprintf('Unable to convert "%s" into a string representation.', $number)
+            );
+        }
+
+        $digits = rtrim($match[2] . $match[3], '0');
+        $shift = (int) $match[4] + 1;
+
+        return $match[1] . rtrim(
+            (substr(str_pad($digits, $shift, '0'), 0, max(0, $shift)) ?: '0')
+                . '.' . str_repeat('0', max(0, -$shift))
+                . substr($digits, max(0, $shift)),
+            '.'
+        );
     }
 }

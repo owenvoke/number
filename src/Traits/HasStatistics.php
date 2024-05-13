@@ -13,6 +13,9 @@ use Worksome\Number\Number;
  */
 trait HasStatistics
 {
+    /**
+     * Get the sum of all of the given numbers
+     */
     public static function sum(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
@@ -30,6 +33,9 @@ trait HasStatistics
         return $total;
     }
 
+    /**
+     * Get the maximum scale found in the given numbers
+     */
     public static function maxScale(Number|BCNumber|string|int|float ...$numbers): int
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
@@ -50,6 +56,9 @@ trait HasStatistics
         return $max;
     }
 
+    /**
+     * Get the minimum scale found in the given numbers
+     */
     public static function minScale(Number|BCNumber|string|int|float ...$numbers): int
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
@@ -70,6 +79,9 @@ trait HasStatistics
         return $min === null ? 0 : $min;
     }
 
+    /**
+     * Get the mean average of the given numbers
+     */
     public static function mean(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
@@ -85,6 +97,9 @@ trait HasStatistics
         return $sum->div($count)->clean($scale);
     }
 
+    /**
+     * Get the median average of the given numbers
+     */
     public static function median(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
@@ -115,6 +130,9 @@ trait HasStatistics
         return static::of($numbers[$middle - 1])->add($numbers[$middle])->div(2);
     }
 
+    /**
+     * Get the minimum value of the given numbers
+     */
     public static function minimum(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
@@ -134,6 +152,9 @@ trait HasStatistics
         return $min;
     }
 
+    /**
+     * Get the maximum value of the given numbers
+     */
     public static function maximum(Number|BCNumber|string|int|float ...$numbers): static
     {
         /** Check if not `isset` (not if `empty` due to zero being valid), and throw exception if not set */
@@ -153,11 +174,17 @@ trait HasStatistics
         return $max;
     }
 
+    /**
+     * The the minimum value of this number or the given number
+     */
     public function min(Number|BCNumber|string|int|float $num): static
     {
         return $this->lt($num) ? $this : static::of($num);
     }
 
+    /**
+     * The the maximum value of this number or the given number
+     */
     public function max(Number|BCNumber|string|int|float $num): static
     {
         return $this->gt($num) ? $this : static::of($num);
