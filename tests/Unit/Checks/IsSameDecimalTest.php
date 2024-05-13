@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 use Worksome\Number\Number;
 
-test('Number can check if it has the same decimal fragment as another number', function (string $num, string $input, bool $expect) {
-    $result = Number::of($num)->isSameDecimal($input);
+test(
+    'Number can check if it has the same decimal fragment as another number',
+    function (string $num, string $input, bool $expect) {
+        $result = Number::of($num)->isSameDecimal($input);
 
-    expect($result)->toBe($expect);
-})->with([
+        expect($result)->toBe($expect);
+    }
+)->with([
     ['-11', '-1', true],
     ['10', '0', true],
     ['9', '1', true],

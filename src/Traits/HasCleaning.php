@@ -30,7 +30,7 @@ trait HasCleaning
             return static::of($wholeNumber);
         }
 
-        $cleaned = $wholeNumber.Number::DECIMAL_SEPARATOR.$decimalKeep.$decimalTail;
+        $cleaned = $wholeNumber . Number::DECIMAL_SEPARATOR . $decimalKeep . $decimalTail;
 
         return static::of($cleaned);
     }

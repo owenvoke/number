@@ -14,8 +14,10 @@ trait HasRandom
 {
     public const RANDOM_NUMBER_SCALE = 100;
 
-    public static function random(Number|BCNumber|string|int|float $min = PHP_INT_MIN, Number|BCNumber|string|int|float $max = PHP_INT_MAX): static
-    {
+    public static function random(
+        Number|BCNumber|string|int|float $min = PHP_INT_MIN,
+        Number|BCNumber|string|int|float $max = PHP_INT_MAX,
+    ): static {
         $min = static::of($min)->round();
         $max = static::of($max)->round();
 
@@ -45,8 +47,10 @@ trait HasRandom
         return $random;
     }
 
-    public static function randomDecimal(Number|BCNumber|string|int|float $min = PHP_INT_MIN, Number|BCNumber|string|int|float $max = PHP_INT_MAX): static
-    {
+    public static function randomDecimal(
+        Number|BCNumber|string|int|float $min = PHP_INT_MIN,
+        Number|BCNumber|string|int|float $max = PHP_INT_MAX,
+    ): static {
         $min = static::of($min);
         $max = static::of($max);
 

@@ -19,7 +19,8 @@ final class StrictPercentageType extends ScalarType
         TXT;
 
     /**
-     * @param  string|int|float  $value
+     * @param string|int|float $value
+     *
      * @return float
      *
      * @throws Error
@@ -30,7 +31,8 @@ final class StrictPercentageType extends ScalarType
     }
 
     /**
-     * @param  string|int|float  $value
+     * @param string|int|float $value
+     *
      * @return float
      *
      * @throws Error
@@ -47,7 +49,7 @@ final class StrictPercentageType extends ScalarType
     public function parseLiteral(Node $valueNode, ?array $variables = null)
     {
         if (! $valueNode instanceof IntValueNode && ! $valueNode instanceof FloatValueNode) {
-            throw new Error('Query error: Can only parse integer or float. Got: '.$valueNode->kind, [$valueNode]);
+            throw new Error('Query error: Can only parse integer or float. Got: ' . $valueNode->kind, [$valueNode]);
         }
 
         return StrictPercentage::of($valueNode->value)->toFloat();

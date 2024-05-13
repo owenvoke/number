@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 use Worksome\Number\Number;
 
-test('Number can check if it represents the same integer as another number', function (string $num, string $input, bool $expect) {
-    $result = Number::of($num)->isSameInteger($input);
+test(
+    'Number can check if it represents the same integer as another number',
+    function (string $num, string $input, bool $expect) {
+        $result = Number::of($num)->isSameInteger($input);
 
-    expect($result)->toBe($expect);
-})->with([
+        expect($result)->toBe($expect);
+    }
+)->with([
     ['-1', '-1', true],
     ['0', '0', true],
     ['1', '1', true],

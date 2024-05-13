@@ -29,7 +29,10 @@ trait HasStatistics
         /** @var int $max */
         $max = array_reduce(
             $numbers,
-            fn (int $max, Number|BCNumber|string|int $num) => (int) max($max, static::of($num)->getScale()), /** @phpstan-ignore-line */
+            fn (int $max, Number|BCNumber|string|int $num) => (int) max(
+                $max,
+                static::of($num)->getScale()
+            ), /** @phpstan-ignore-line */
             0,
         );
 
@@ -41,7 +44,10 @@ trait HasStatistics
         /** @var ?int $min */
         $min = array_reduce(
             $numbers,
-            fn (?int $min, Number|BCNumber|string|int $num) => (int) min($min ?? INF, static::of($num)->getScale()), /** @phpstan-ignore-line */
+            fn (?int $min, Number|BCNumber|string|int $num) => (int) min(
+                $min ?? INF,
+                static::of($num)->getScale()
+            ), /** @phpstan-ignore-line */
             null,
         );
 

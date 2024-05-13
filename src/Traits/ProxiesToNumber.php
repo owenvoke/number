@@ -13,50 +13,65 @@ use Worksome\Number\Number;
 trait ProxiesToNumber
 {
     /**
-     * @param  int<1, 4>  $roundingMode
+     * @param int<1, 4> $roundingMode
      */
-    public function add(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
-    {
+    public function add(
+        Number|BCNumber|string|int $num,
+        ?int $scale = null,
+        int $roundingMode = PHP_ROUND_HALF_UP,
+    ): static {
         $num = ($num instanceof Number) ? $num->value : $num;
 
         return static::of($this->value->add($num, $scale, $roundingMode));
     }
 
     /**
-     * @param  int<1, 4>  $roundingMode
+     * @param int<1, 4> $roundingMode
      */
-    public function sub(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
-    {
+    public function sub(
+        Number|BCNumber|string|int $num,
+        ?int $scale = null,
+        int $roundingMode = PHP_ROUND_HALF_UP,
+    ): static {
         $num = ($num instanceof Number) ? $num->value : $num;
 
         return static::of($this->value->sub($num, $scale, $roundingMode));
     }
 
     /**
-     * @param  int<1, 4>  $roundingMode
+     * @param int<1, 4> $roundingMode
      */
-    public function mul(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
-    {
+    public function mul(
+        Number|BCNumber|string|int $num,
+        ?int $scale = null,
+        int $roundingMode = PHP_ROUND_HALF_UP,
+    ): static {
         $num = ($num instanceof Number) ? $num->value : $num;
 
         return static::of($this->value->mul($num, $scale, $roundingMode));
     }
 
     /**
-     * @param  int<1, 4>  $roundingMode
+     * @param int<1, 4> $roundingMode
      */
-    public function div(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
-    {
+    public function div(
+        Number|BCNumber|string|int $num,
+        ?int $scale = null,
+        int $roundingMode = PHP_ROUND_HALF_UP,
+    ): static {
         $num = ($num instanceof Number) ? $num->value : $num;
 
         return static::of($this->value->div($num, $scale, $roundingMode));
     }
 
     /**
-     * @param  int<1, 4>  $roundingMode
+     * @param int<1, 4> $roundingMode
      */
-    public function mod(Number|BCNumber|string|int $num, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
-    {
+    public function mod(
+        Number|BCNumber|string|int $num,
+        ?int $scale = null,
+        int $roundingMode = PHP_ROUND_HALF_UP,
+    ): static {
         $num = ($num instanceof Number) ? $num->value : $num;
 
         return static::of($this->value->mod($num, $scale, $roundingMode));
@@ -71,17 +86,21 @@ trait ProxiesToNumber
     }
 
     /**
-     * @param  int<1, 4>  $roundingMode
+     * @param int<1, 4> $roundingMode
      */
-    public function pow(Number|BCNumber|string|int $exponent, int $minScale, ?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
-    {
+    public function pow(
+        Number|BCNumber|string|int $exponent,
+        int $minScale,
+        ?int $scale = null,
+        int $roundingMode = PHP_ROUND_HALF_UP,
+    ): static {
         $exponent = ($exponent instanceof Number) ? $exponent->value : $exponent;
 
         return static::of($this->value->pow($exponent, $minScale, $scale, $roundingMode));
     }
 
     /**
-     * @param  int<1, 4>  $roundingMode
+     * @param int<1, 4> $roundingMode
      */
     public function sqrt(?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP): static
     {
@@ -99,7 +118,7 @@ trait ProxiesToNumber
     }
 
     /**
-     * @param  int<1, 4>  $mode
+     * @param int<1, 4> $mode
      */
     public function round(int $precision = 0, int $mode = PHP_ROUND_HALF_UP): static
     {
@@ -149,10 +168,14 @@ trait ProxiesToNumber
     }
 
     /**
-     * @param  int<1, 4>  $roundingMode
+     * @param int<1, 4> $roundingMode
      */
-    public function format(?int $scale = null, int $roundingMode = PHP_ROUND_HALF_UP, string $decimalSeparator = Number::DECIMAL_SEPARATOR, string $thousandsSeparator = Number::THOUSANDS_SEPARATOR): string
-    {
+    public function format(
+        ?int $scale = null,
+        int $roundingMode = PHP_ROUND_HALF_UP,
+        string $decimalSeparator = Number::DECIMAL_SEPARATOR,
+        string $thousandsSeparator = Number::THOUSANDS_SEPARATOR,
+    ): string {
         return $this->format($scale, $roundingMode, $decimalSeparator, $thousandsSeparator);
     }
 
