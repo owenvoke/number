@@ -6,43 +6,9 @@ use Pest\Expectation;
 use Worksome\Number\Exceptions\InvalidValueException;
 use Worksome\Number\StrictPercentage;
 
-// it('can instantiate a Strict Percentage from values', function (string|int|float|BigDecimal|StrictPercentage $value) {
-//     /** @var Expectation $expectation */
-//     $expectation = expect(StrictPercentage::of($value))->toBeInstanceOf(StrictPercentage::class);
-
-//     $type = gettype($value);
-//     if ($type == 'double') {
-//         expect($expectation->toFloat())->toBeFloat()->toBe($value);
-//     } elseif ($type == 'string') {
-//         expect((string) $expectation->value)->toBeString()->toBe("{$value}%");
-//     } elseif ($type == 'integer') {
-//         expect($expectation->toInt())->toBeInt()->toBe($value);
-//     } elseif ($type == 'object' && $expectation->value instanceof BigDecimal) {
-//         expect($expectation)->toEqual($value);
-//     } elseif ($type == 'object' && $expectation->value instanceof Number) {
-//         expect($expectation)->toBeInstanceOf(BigDecimal::class);
-//     } else {
-//         $this->fail('An invalid type was provided in the dataset');
-//     }
-// })->with([
-//     '`1.0` as string' => '1.0',
-//     '`1` as string' => '1',
-//     '`0.01` as string' => '0.01',
-//     '`1` as int' => 1,
-//     '`10` as int' => 10,
-//     '`0.1` as float' => 0.1,
-//     '`0.00000001` as float' => 0.00000001,
-//     '`1.0` as BigDecimal from string' => BigDecimal::of('1.0'),
-//     '`1` as BigDecimal from integer' => BigDecimal::of(1),
-//     '`0.1` as BigDecimal from float' => BigDecimal::of(0.1),
-//     '`1.0` as Number from string' => StrictPercentage::of('1.0'),
-//     '`1` as Number from integer' => StrictPercentage::of(1),
-//     '`0.1` as Number from float' => StrictPercentage::of(0.1),
-// ]);
-
 it(
     'throws an exception when an invalid percentage is provided',
-    function (string|int|float|BigDecimal|StrictPercentage $value) {
+    function (string|int|float|StrictPercentage $value) {
         /** @var Expectation $expectation */
         StrictPercentage::of($value);
     }
