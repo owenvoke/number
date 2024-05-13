@@ -83,7 +83,7 @@ trait HasChecks
         return $start === $end;
     }
 
-    public function isDivisibleBy(Number|BCNumber|string|int ...$num): bool
+    public function isDivisibleBy(Number|BCNumber|string|int|float ...$num): bool
     {
         foreach ($num as $number) {
             $result = $this->div($number);
@@ -142,7 +142,7 @@ trait HasChecks
         return $this->abs()->mod(2)->eq(1);
     }
 
-    public function in(Number|BCNumber|string|int ...$numbers): bool
+    public function in(Number|BCNumber|string|int|float ...$numbers): bool
     {
         foreach ($numbers as $num) {
             if ($this->eq($num)) {
@@ -156,7 +156,7 @@ trait HasChecks
     /**
      * Does this number have the same integer fragment as the $other number?
      */
-    public function isSameInteger(Number|BCNumber|string|int $other): bool
+    public function isSameInteger(Number|BCNumber|string|int|float $other): bool
     {
         return $this->round()->toInteger() === static::of($other)->round()->toInteger();
     }
@@ -164,7 +164,7 @@ trait HasChecks
     /**
      * Does this number have the same decimal fragment as the $other number?
      */
-    public function isSameDecimal(Number|BCNumber|string|int $other): bool
+    public function isSameDecimal(Number|BCNumber|string|int|float $other): bool
     {
         $thisValue = $this->truncate()->getDecimal();
         $thatValue = static::of($other)->truncate()->getDecimal();

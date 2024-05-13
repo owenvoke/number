@@ -36,7 +36,7 @@ class Number implements Stringable
     public BCNumber $value;
 
     public function __construct(
-        Number|BCNumber|string|int $value,
+        Number|BCNumber|string|int|float $value,
     ) {
         $this->value = new BCNumber((string) $value);
 
@@ -78,7 +78,7 @@ class Number implements Stringable
      *
      * @return array<int, string>
      */
-    public static function parseFragments(Number|BCNumber|string|int $num): array
+    public static function parseFragments(Number|BCNumber|string|int|float $num): array
     {
         $num = (string) $num;
         $pos = strpos($num, self::DECIMAL_SEPARATOR);

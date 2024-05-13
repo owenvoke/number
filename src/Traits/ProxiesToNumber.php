@@ -16,11 +16,11 @@ trait ProxiesToNumber
      * @param int<1, 4> $roundingMode
      */
     public function add(
-        Number|BCNumber|string|int $num,
+        Number|BCNumber|string|int|float $num,
         ?int $scale = null,
         int $roundingMode = PHP_ROUND_HALF_UP,
     ): static {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return static::of($this->value->add($num, $scale, $roundingMode));
     }
@@ -29,11 +29,11 @@ trait ProxiesToNumber
      * @param int<1, 4> $roundingMode
      */
     public function sub(
-        Number|BCNumber|string|int $num,
+        Number|BCNumber|string|int|float $num,
         ?int $scale = null,
         int $roundingMode = PHP_ROUND_HALF_UP,
     ): static {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return static::of($this->value->sub($num, $scale, $roundingMode));
     }
@@ -42,11 +42,11 @@ trait ProxiesToNumber
      * @param int<1, 4> $roundingMode
      */
     public function mul(
-        Number|BCNumber|string|int $num,
+        Number|BCNumber|string|int|float $num,
         ?int $scale = null,
         int $roundingMode = PHP_ROUND_HALF_UP,
     ): static {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return static::of($this->value->mul($num, $scale, $roundingMode));
     }
@@ -55,11 +55,11 @@ trait ProxiesToNumber
      * @param int<1, 4> $roundingMode
      */
     public function div(
-        Number|BCNumber|string|int $num,
+        Number|BCNumber|string|int|float $num,
         ?int $scale = null,
         int $roundingMode = PHP_ROUND_HALF_UP,
     ): static {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return static::of($this->value->div($num, $scale, $roundingMode));
     }
@@ -68,19 +68,19 @@ trait ProxiesToNumber
      * @param int<1, 4> $roundingMode
      */
     public function mod(
-        Number|BCNumber|string|int $num,
+        Number|BCNumber|string|int|float $num,
         ?int $scale = null,
         int $roundingMode = PHP_ROUND_HALF_UP,
     ): static {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return static::of($this->value->mod($num, $scale, $roundingMode));
     }
 
-    public function powmod(Number|BCNumber|string|int $exponent, Number|BCNumber|string|int $modulus): static
+    public function powmod(Number|BCNumber|string|int|float $exponent, Number|BCNumber|string|int|float $modulus): static
     {
-        $exponent = ($exponent instanceof Number) ? $exponent->value : $exponent;
-        $modulus = ($modulus instanceof Number) ? $modulus->value : $modulus;
+        $exponent = $this->prepareArgumentForBCNumber($exponent);
+        $modulus = $this->prepareArgumentForBCNumber($modulus);
 
         return static::of($this->value->powmod($exponent, $modulus));
     }
@@ -89,12 +89,12 @@ trait ProxiesToNumber
      * @param int<1, 4> $roundingMode
      */
     public function pow(
-        Number|BCNumber|string|int $exponent,
+        Number|BCNumber|string|int|float $exponent,
         int $minScale,
         ?int $scale = null,
         int $roundingMode = PHP_ROUND_HALF_UP,
     ): static {
-        $exponent = ($exponent instanceof Number) ? $exponent->value : $exponent;
+        $exponent = $this->prepareArgumentForBCNumber($exponent);
 
         return static::of($this->value->pow($exponent, $minScale, $scale, $roundingMode));
     }
@@ -125,44 +125,44 @@ trait ProxiesToNumber
         return static::of($this->value->round($precision, $mode));
     }
 
-    public function comp(Number|BCNumber|string|int $num, ?int $scale = null): int
+    public function comp(Number|BCNumber|string|int|float $num, ?int $scale = null): int
     {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return $this->value->comp($num, $scale);
     }
 
-    public function eq(Number|BCNumber|string|int $num, ?int $scale = null): bool
+    public function eq(Number|BCNumber|string|int|float $num, ?int $scale = null): bool
     {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return $this->value->eq($num, $scale);
     }
 
-    public function gt(Number|BCNumber|string|int $num, ?int $scale = null): bool
+    public function gt(Number|BCNumber|string|int|float $num, ?int $scale = null): bool
     {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return $this->value->gt($num, $scale);
     }
 
-    public function gte(Number|BCNumber|string|int $num, ?int $scale = null): bool
+    public function gte(Number|BCNumber|string|int|float $num, ?int $scale = null): bool
     {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return $this->value->gte($num, $scale);
     }
 
-    public function lt(Number|BCNumber|string|int $num, ?int $scale = null): bool
+    public function lt(Number|BCNumber|string|int|float $num, ?int $scale = null): bool
     {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return $this->value->lt($num, $scale);
     }
 
-    public function lte(Number|BCNumber|string|int $num, ?int $scale = null): bool
+    public function lte(Number|BCNumber|string|int|float $num, ?int $scale = null): bool
     {
-        $num = ($num instanceof Number) ? $num->value : $num;
+        $num = $this->prepareArgumentForBCNumber($num);
 
         return $this->value->lte($num, $scale);
     }
@@ -179,8 +179,22 @@ trait ProxiesToNumber
         return $this->format($scale, $roundingMode, $decimalSeparator, $thousandsSeparator);
     }
 
-    public function __toString(): string
+    /**
+     * Convert the given number to a type that is safe for BCMath\Number to use.
+     *
+     * Method signatures in Number support instances of Number and float, whereas BCMath\Number
+     * only supports BCMath\Number, string and int.
+     */
+    protected function prepareArgumentForBCNumber(Number|BCNumber|string|int|float $num): BCNUmber|string|int
     {
-        return (string) $this->value;
+        if ($num instanceof Number) {
+            return $num->value;
+        }
+
+        if (is_float($num)) {
+            return (string) $num;
+        }
+
+        return $num;
     }
 }
