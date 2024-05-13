@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Worksome\Number\GraphQL\Scalars;
 
-use Brick\Math\Exception\NumberFormatException;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\FloatValueNode;
 use GraphQL\Language\AST\IntValueNode;

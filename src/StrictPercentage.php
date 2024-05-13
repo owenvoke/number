@@ -14,7 +14,7 @@ class StrictPercentage extends Percentage
             throw new InvalidValueException(
                 sprintf(
                     'The provided value "%s" is not a valid percentage',
-                    $this->value->toFloat()
+                    (string) $this->value,
                 )
             );
         }
