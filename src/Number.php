@@ -13,7 +13,6 @@ class Number implements Stringable
     use Macroable;
     use Traits\HasChecks;
     use Traits\HasCleaning;
-    use Traits\HasHelpers;
     use Traits\HasModifications;
     use Traits\HasOutputTo;
     use Traits\HasRandom;
