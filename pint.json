@@ -1,9 +1,6 @@
 {
     "preset": "psr12",
-    "exclude": [
-        "bootstrap/",
-        "nova"
-    ],
+    "exclude": [],
     "rules": {
         "no_superfluous_phpdoc_tags": true,
         "phpdoc_annotation_without_dot": true,
