@@ -9,11 +9,19 @@ test('NumberCast can cast inbound attributes', function (string|float|int $datab
     $cast = new NumberCast();
     /** @var Number $result */
     $result = $cast->get(new TestingModel(), 'amount', $databaseValue, []);
-
     expect($result)->toBeInstanceOf(Number::class)
         ->not->toBeInstanceOf(ChildNumber::class);
-
     expect($result->eq(Number::of($databaseValue)));
+
+    /**
+     * Try again with a different Number class
+     */
+
+    $cast = new NumberCast(ChildNumber::class);
+    /** @var Number $result */
+    $result = $cast->get(new TestingModel(), 'amount', $databaseValue, []);
+    expect($result)->toBeInstanceOf(ChildNumber::class);
+    expect($result->eq(ChildNumber::of($databaseValue)));
 })->with([
     '4',
     '2395734759834759843759834',
