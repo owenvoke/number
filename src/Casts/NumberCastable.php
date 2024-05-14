@@ -12,7 +12,7 @@ class NumberCastable implements Castable
     /**
      * Get the caster class to use when casting from / to this cast target.
      *
-     * @param  array<int, class-string>  $arguments
+     * @param array<int, class-string> $arguments
      */
     public static function castUsing(array $arguments): NumberCast
     {

@@ -41,7 +41,7 @@ class Parser
             $precision = (int) ini_get('precision');
         }
 
-        if (!preg_match(
+        if (! preg_match(
             '/^(-?)(\d)\.(\d+)e([+-]\d+)$/',
             sprintf('%.' . ($precision - 1) . 'e', (float) $number),
             $match

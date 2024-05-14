@@ -86,6 +86,7 @@ trait HasChecks
     {
         return $this->lt(0);
     }
+
     /**
      * Check if the number is less than or equal to zero
      */

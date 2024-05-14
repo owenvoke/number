@@ -76,6 +76,6 @@ class Number implements Stringable
      */
     public static function cast(): string
     {
-        return NumberCastable::class.':'.static::class;
+        return NumberCastable::class . ':' . static::class;
     }
 }

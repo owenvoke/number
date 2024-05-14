@@ -6,8 +6,8 @@ use Worksome\Number\Number;
 use Worksome\Number\Tests\Fixtures\ChildNumber;
 
 test('Number can define a castable based on the number calling class', function () {
-    expect(Number::cast())->toBe(NumberCastable::class.':'.Number::class);
-    expect(ChildNumber::cast())->toBe(NumberCastable::class.':'.ChildNumber::class);
+    expect(Number::cast())->toBe(NumberCastable::class . ':' . Number::class);
+    expect(ChildNumber::cast())->toBe(NumberCastable::class . ':' . ChildNumber::class);
 });
 
 test('NumberCastable can resolve a CastsAttributes specific to that class', function () {
