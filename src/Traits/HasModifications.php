@@ -81,4 +81,14 @@ trait HasModifications
 
         return $this->div($times, $scale);
     }
+
+    /**
+     * Apply a percentage
+     *
+     * To apply a 50% value, the number should be "50" not "0.5"
+     */
+    public function percentage(Number|BCNumber|string|int|float $number): Number
+    {
+        return $this->div(100)->mul($number);
+    }
 }

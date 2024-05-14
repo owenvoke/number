@@ -8,6 +8,7 @@ use BCMath\Number as BCNumber;
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
 use Stringable;
+use Worksome\Number\Casts\NumberCastable;
 
 class Number implements Stringable
 {
@@ -37,6 +38,16 @@ class Number implements Stringable
         $this->validate();
     }
 
+    /**
+     * Immediately validate the number instance.
+     */
+    protected function validate(): void
+    {
+    }
+
+    /**
+     * Parse the given number
+     */
     public static function of(Number|BCNumber|string|int|float $value): static
     {
         if (is_float($value)) {
@@ -47,24 +58,18 @@ class Number implements Stringable
         return new static($value);
     }
 
+    /**
+     * Get the scale (precision length) of this number
+     */
     public function getScale(): int
     {
         return $this->value->scale;
-    }
-
-    public function percentage(Number|BCNumber|string|int|float $number): Number
-    {
-        return $this->div(100)->mul($number);
     }
 
     /** @TODO: This should be moved to a money package. */
     public function inCents(): int
     {
         return $this->mul(100)->toInteger();
-    }
-
-    protected function validate(): void
-    {
     }
 
     /**
@@ -90,6 +95,9 @@ class Number implements Stringable
         ];
     }
 
+    /**
+     * Convert the given float to its string form
+     */
     protected static function floatToString(float $number, null|int $precision = null): string
     {
         if ($precision === null) {
@@ -115,5 +123,13 @@ class Number implements Stringable
                 . substr($digits, max(0, $shift)),
             '.'
         );
+    }
+
+    /**
+     * Get the Laravel attribute castable for this Number
+     */
+    public static function cast(): string
+    {
+        return NumberCastable::class.':'.static::class;
     }
 }
