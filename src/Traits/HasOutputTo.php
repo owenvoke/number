@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Worksome\Number\Traits;
 
 use Worksome\Number\Number;
+use Worksome\Number\Parser;
 
 /**
  * @mixin Number
@@ -93,7 +94,7 @@ trait HasOutputTo
      */
     public function extractDecimal(): static
     {
-        [$whole, $decimal] = static::parseFragments($this->value);
+        [$whole, $decimal] = Parser::parseFragments($this->value);
 
         if ($decimal === '') {
             return static::zero();
@@ -107,7 +108,7 @@ trait HasOutputTo
      */
     public function extractInteger(): static
     {
-        [$whole, $decimal] = static::parseFragments($this->value);
+        [$whole, $decimal] = Parser::parseFragments($this->value);
 
         if ($decimal === '') {
             return static::zero();

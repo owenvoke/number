@@ -7,6 +7,7 @@ namespace Worksome\Number\Traits;
 use BCMath\Number as BCNumber;
 use Exception;
 use Worksome\Number\Number;
+use Worksome\Number\Parser;
 
 /**
  * @mixin Number
@@ -42,7 +43,7 @@ trait HasModifications
      */
     public function increaseScale(int $scale): static
     {
-        [$whole, $decimal] = static::parseFragments($this->value);
+        [$whole, $decimal] = Parser::parseFragments($this->value);
         $decimal = str_pad($decimal, $scale, Number::ZERO, STR_PAD_RIGHT);
 
         $number = $whole . Number::DECIMAL_SYMBOL . $decimal;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Worksome\Number\Tests\Fixtures\TestingNumber;
+use Worksome\Number\Parser;
 
 test('Number can parse fragments', function (string $input, string $wholeNumber, string $decimalNumber) {
-    $result = TestingNumber::parseFragments($input);
+    $result = Parser::parseFragments($input);
 
     expect($result)->toBe([
         $wholeNumber,

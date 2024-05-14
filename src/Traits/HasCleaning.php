@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Worksome\Number\Traits;
 
 use Worksome\Number\Number;
+use Worksome\Number\Parser;
 
 /**
  * @mixin Number
@@ -16,7 +17,7 @@ trait HasCleaning
      */
     public function clean(int $minScale): static
     {
-        [$wholeNumber, $decimalNumber] = Number::parseFragments($this);
+        [$wholeNumber, $decimalNumber] = Parser::parseFragments($this);
 
         if ($decimalNumber === '') {
             return static::of($wholeNumber);
