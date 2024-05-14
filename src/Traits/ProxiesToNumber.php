@@ -223,7 +223,7 @@ trait ProxiesToNumber
     public function format(
         int|null $scale = null,
         int $roundingMode = PHP_ROUND_HALF_UP,
-        string $decimalSeparator = Number::DECIMAL_SEPARATOR,
+        string $decimalSeparator = Number::DECIMAL_SYMBOL,
         string $thousandsSeparator = Number::THOUSANDS_SEPARATOR,
     ): string {
         return $this->format($scale, $roundingMode, $decimalSeparator, $thousandsSeparator);

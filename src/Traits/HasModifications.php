@@ -45,7 +45,7 @@ trait HasModifications
         [$whole, $decimal] = static::parseFragments($this->value);
         $decimal = str_pad($decimal, $scale, Number::ZERO, STR_PAD_RIGHT);
 
-        $number = $whole . Number::DECIMAL_SEPARATOR . $decimal;
+        $number = $whole . Number::DECIMAL_SYMBOL . $decimal;
 
         return static::of($number);
     }

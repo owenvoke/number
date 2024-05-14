@@ -24,7 +24,7 @@ class Number implements Stringable
 
     public const NEGATIVE_SYMBOL = '-';
 
-    public const DECIMAL_SEPARATOR = '.';
+    public const DECIMAL_SYMBOL = '.';
 
     public const THOUSANDS_SEPARATOR = '';
 
@@ -80,7 +80,7 @@ class Number implements Stringable
     public static function parseFragments(Number|BCNumber|string|int|float $num): array
     {
         $num = (string) $num;
-        $pos = strpos($num, self::DECIMAL_SEPARATOR);
+        $pos = strpos($num, self::DECIMAL_SYMBOL);
         $wholeNumber = $num;
         $decimalNumber = '';
 

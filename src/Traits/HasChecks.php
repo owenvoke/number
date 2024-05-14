@@ -17,7 +17,7 @@ trait HasChecks
      */
     public function hasDecimal(): bool
     {
-        return str_contains($this->toString(), Number::DECIMAL_SEPARATOR);
+        return str_contains($this->toString(), Number::DECIMAL_SYMBOL);
     }
 
     /**
@@ -115,7 +115,7 @@ trait HasChecks
      */
     public function isPalindrome(): bool
     {
-        $value = str_replace(Number::DECIMAL_SEPARATOR, '', $this->abs()->toString());
+        $value = str_replace(Number::DECIMAL_SYMBOL, '', $this->abs()->toString());
         $half = (int) ceil(strlen($value) / 2);
 
         $start = substr($value, 0, $half);
