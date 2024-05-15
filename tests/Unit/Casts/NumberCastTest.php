@@ -17,39 +17,45 @@ dataset('number_cast_dataset', [
     '2093562907457029374332',
 ]);
 
-test('NumberCast can cast attributes via get', function (string|float|int $databaseValue, null|string $stringValue = null) {
-    $cast = new NumberCast();
-    /** @var Number $result */
-    $result = $cast->get(new TestingModel(), 'amount', $databaseValue, []);
-    expect($result)->toBeInstanceOf(Number::class)
-        ->not->toBeInstanceOf(ChildNumber::class);
-    expect($result->eq(Number::of($databaseValue)));
+test(
+    'NumberCast can cast attributes via get',
+    function (string|float|int $databaseValue, null|string $stringValue = null) {
+        $cast = new NumberCast();
+        /** @var Number $result */
+        $result = $cast->get(new TestingModel(), 'amount', $databaseValue, []);
+        expect($result)->toBeInstanceOf(Number::class)
+            ->not->toBeInstanceOf(ChildNumber::class);
+        expect($result->eq(Number::of($databaseValue)));
 
-    /**
-     * Try again with a different Number class
-     */
+        /**
+         * Try again with a different Number class
+         */
 
-    $cast = new NumberCast(ChildNumber::class);
-    /** @var Number $result */
-    $result = $cast->get(new TestingModel(), 'amount', $databaseValue, []);
-    expect($result)->toBeInstanceOf(ChildNumber::class);
-    expect($result->eq(ChildNumber::of($databaseValue)));
-})->with('number_cast_dataset');
+        $cast = new NumberCast(ChildNumber::class);
+        /** @var Number $result */
+        $result = $cast->get(new TestingModel(), 'amount', $databaseValue, []);
+        expect($result)->toBeInstanceOf(ChildNumber::class);
+        expect($result->eq(ChildNumber::of($databaseValue)));
+    }
+)->with('number_cast_dataset');
 
-test('NumberCast can cast attributes via set', function (string|float|int $databaseValue, null|string $stringValue = null) {
-    $stringValue ??= (string) $databaseValue;
+test(
+    'NumberCast can cast attributes via set',
+    function (string|float|int $databaseValue, null|string $stringValue = null) {
+        $stringValue ??= (string) $databaseValue;
 
-    $cast = new NumberCast();
-    /** @var Number $result */
-    $result = $cast->set(new TestingModel(), 'amount', Number::of($databaseValue), []);
-    expect($result)->toBe($stringValue);
+        $cast = new NumberCast();
+        /** @var Number $result */
+        $result = $cast->set(new TestingModel(), 'amount', Number::of($databaseValue), []);
+        expect($result)->toBe($stringValue);
 
-    /**
-     * Try again with a different Number class
-     */
+        /**
+         * Try again with a different Number class
+         */
 
-    $cast = new NumberCast(ChildNumber::class);
-    /** @var Number $result */
-    $result = $cast->set(new TestingModel(), 'amount', ChildNumber::of($databaseValue), []);
-    expect($result)->toBe($stringValue);
-})->with('number_cast_dataset');
+        $cast = new NumberCast(ChildNumber::class);
+        /** @var Number $result */
+        $result = $cast->set(new TestingModel(), 'amount', ChildNumber::of($databaseValue), []);
+        expect($result)->toBe($stringValue);
+    }
+)->with('number_cast_dataset');
