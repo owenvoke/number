@@ -50,7 +50,7 @@ class Number implements Stringable
     public static function of(Number|BCNumber|string|int|float $value): static
     {
         if (is_float($value)) {
-            $value = Parser::floatToString($value);
+            $value = (string) $value;
         }
 
         /** @phpstan-ignore-next-line */
