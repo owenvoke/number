@@ -17,4 +17,9 @@ class ValueIsNotANumberException extends InvalidArgumentException implements Num
     {
         return new self('The given cents value is not a Number instance');
     }
+
+    public static function make(): self
+    {
+        return new self('The given number value is not a Number instance');
+    }
 }

@@ -4,140 +4,78 @@ declare(strict_types=1);
 
 namespace Worksome\Number;
 
-use BCMath;
+use BCMath\Number as BCNumber;
 use Illuminate\Support\Traits\Macroable;
+use Stringable;
+use Worksome\Number\Casts\NumberCastable;
 
-/** @mixin BCMath\Number */
-class Number
+class Number implements Stringable
 {
-    use Macroable {
-        __call as macroCall;
-    }
+    use Macroable;
+    use Traits\HasChecks;
+    use Traits\HasCleaning;
+    use Traits\HasModifications;
+    use Traits\HasOutputTo;
+    use Traits\HasRandom;
+    use Traits\HasShortcuts;
+    use Traits\HasStatistics;
+    use Traits\ProxiesToNumber;
 
-    public readonly BCMath\Number $value;
+    public const NEGATIVE_SYMBOL = '-';
+
+    public const DECIMAL_SYMBOL = '.';
+
+    public const THOUSANDS_SEPARATOR = '';
+
+    public BCNumber $value;
 
     public function __construct(
-        Number|BCMath\Number|string|int $value,
+        Number|BCNumber|string|int|float $value,
     ) {
-        $this->value = match (true) {
-            $value instanceof BCMath\Number => $value,
-            $value instanceof Number => $value->value,
-            default => new BCMath\Number($value),
-        };
+        $this->value = new BCNumber((string) $value);
 
         $this->validate();
     }
 
-    public static function of(Number|BCMath\Number|string|int|float $value): Number
+    /**
+     * Immediately validate the number instance.
+     */
+    protected function validate(): void
     {
-        if ($value instanceof Number) {
-            return new Number($value->value);
+    }
+
+    /**
+     * Parse the given number
+     */
+    public static function of(Number|BCNumber|string|int|float $value): static
+    {
+        if (is_float($value)) {
+            $value = (string) $value;
         }
 
-        if ($value instanceof BCMath\Number) {
-            return new Number($value);
-        }
-
-        if (is_int($value)) {
-            return new Number($value);
-        }
-
-        return new Number(new BCMath\Number((string) $value));
+        /** @phpstan-ignore-next-line */
+        return new static($value);
     }
 
-    public function percentage(Number $number): Number
+    /**
+     * Get the scale (precision length) of this number
+     */
+    public function getScale(): int
     {
-        return $this->value->div(100)->mul($number);
-    }
-
-    public function negate(): Number
-    {
-        return new Number("-{$this->value}");
-    }
-
-    public function isEqualTo(Number $value): bool
-    {
-        return $this->value->eq($value->value);
-    }
-
-    public function isLessThan(Number $value): bool
-    {
-        return $this->value->lt($value->value);
-    }
-
-    public function isLessThanOrEqualTo(Number $value): bool
-    {
-        return $this->value->lte($value);
-    }
-
-    public function isGreaterThan(Number $value): bool
-    {
-        return $this->value->gt($value->value);
-    }
-
-    public function isGreaterThanOrEqualTo(Number $value): bool
-    {
-        return $this->value->gte($value);
-    }
-
-    public function isZero(): bool
-    {
-        return $this->value->eq(0);
-    }
-
-    public function isNegative(): bool
-    {
-        return $this->value->lt(0);
-    }
-
-    public function isNegativeOrZero(): bool
-    {
-        return $this->isZero() || $this->isNegative();
-    }
-
-    public function isPositive(): bool
-    {
-        return $this->value->gt(0);
-    }
-
-    public function isPositiveOrZero(): bool
-    {
-        return $this->isZero() || $this->isPositive();
-    }
-
-    public function toString(): string
-    {
-        return (string) $this->value;
-    }
-
-    public function toFloat(): float
-    {
-        return (float) $this->value;
+        return $this->value->scale;
     }
 
     /** @TODO: This should be moved to a money package. */
     public function inCents(): int
     {
-        return (int) $this->value->mul(100);
+        return $this->mul(100)->toInteger();
     }
 
-    public function __toString(): string
+    /**
+     * Get the Laravel attribute castable for this Number
+     */
+    public static function cast(): string
     {
-        return $this->toString();
-    }
-
-    public function __call($method, $parameters): mixed
-    {
-        if (method_exists($this->value, $method)) {
-            $value = $this->value->{$method}(...$parameters);
-
-            return $value instanceof BCMath\Number ? new Number($value) : $value;
-        }
-
-        return $this->macroCall($method, $parameters);
-    }
-
-    protected function validate(): void
-    {
+        return NumberCastable::class . ':' . static::class;
     }
 }

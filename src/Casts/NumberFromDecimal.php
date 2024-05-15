@@ -33,11 +33,10 @@ class NumberFromDecimal implements CastsAttributes
             throw ValueIsNotANumberException::fromDecimal();
         }
 
-        return number_format(
-            $value->getValue()->toFloat(),
-            $this->decimals,
-            $this->decimalSeparator,
-            $this->thousandsSeparator,
+        return $value->format(
+            scale: $this->decimals,
+            decimalSeparator: $this->decimalSeparator,
+            thousandsSeparator: $this->thousandsSeparator,
         );
     }
 }

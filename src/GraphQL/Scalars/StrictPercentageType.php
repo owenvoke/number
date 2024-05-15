@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Worksome\Number\GraphQL\Scalars;
 
-use Brick\Math\Exception\NumberFormatException;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\FloatValueNode;
 use GraphQL\Language\AST\IntValueNode;
@@ -15,7 +14,7 @@ use Worksome\Number\StrictPercentage;
 
 final class StrictPercentageType extends ScalarType
 {
-    public string|null $description = <<<TXT
+    public string|null $description = <<<'TXT'
         The `StrictPercentage` scalar type represents a percentage that cannot be less than 0% or greater than 100%.
         TXT;
 
@@ -42,15 +41,15 @@ final class StrictPercentageType extends ScalarType
     {
         try {
             return StrictPercentage::of($value)->toFloat();
-        } catch (NumberException|NumberFormatException $exception) {
+        } catch (NumberException $exception) {
             throw new Error($exception->getMessage());
         }
     }
 
-    public function parseLiteral(Node $valueNode, ?array $variables = null)
+    public function parseLiteral(Node $valueNode, array|null $variables = null)
     {
         if (! $valueNode instanceof IntValueNode && ! $valueNode instanceof FloatValueNode) {
-            throw new Error("Query error: Can only parse integer or float. Got: " . $valueNode->kind, [$valueNode]);
+            throw new Error('Query error: Can only parse integer or float. Got: ' . $valueNode->kind, [$valueNode]);
         }
 
         return StrictPercentage::of($valueNode->value)->toFloat();

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Worksome\Number\Exceptions;
 
-interface NumberException
+use Throwable;
+
+interface NumberException extends Throwable
 {
 }

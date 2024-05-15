@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Worksome\Number\GraphQL\Scalars;
 
-use Brick\Math\Exception\NumberFormatException;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\FloatValueNode;
 use GraphQL\Language\AST\IntValueNode;
@@ -15,7 +14,7 @@ use Worksome\Number\Percentage;
 
 final class PercentageType extends ScalarType
 {
-    public string|null $description = <<<TXT
+    public string|null $description = <<<'TXT'
         The `Percentage` scalar type represents a percentage.
         TXT;
 
@@ -42,15 +41,15 @@ final class PercentageType extends ScalarType
     {
         try {
             return Percentage::of($value)->toFloat();
-        } catch (NumberException|NumberFormatException $exception) {
+        } catch (NumberException $exception) {
             throw new Error($exception->getMessage());
         }
     }
 
-    public function parseLiteral(Node $valueNode, ?array $variables = null)
+    public function parseLiteral(Node $valueNode, array|null $variables = null)
     {
         if (! $valueNode instanceof IntValueNode && ! $valueNode instanceof FloatValueNode) {
-            throw new Error("Query error: Can only parse integer or float. Got: " . $valueNode->kind, [$valueNode]);
+            throw new Error('Query error: Can only parse integer or float. Got: ' . $valueNode->kind, [$valueNode]);
         }
 
         return Percentage::of($valueNode->value)->toFloat();
