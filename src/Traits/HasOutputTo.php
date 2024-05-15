@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Worksome\Number\Traits;
 
 use Worksome\Number\Number;
-use Worksome\Number\Parser;
 
 /**
  * @mixin Number
@@ -49,7 +48,12 @@ trait HasOutputTo
      */
     public function extractDecimal(): static
     {
-        return static::of(Parser::parseDecimalNumber($this->value) ?? '');
+        $num = $this->value->value;
+        $pos = strpos($num, Number::DECIMAL_SYMBOL);
+
+        $decimal = ($pos === false) ? '0' : substr($num, $pos + 1);
+
+        return static::of($decimal);
     }
 
     /**
@@ -57,6 +61,11 @@ trait HasOutputTo
      */
     public function extractInteger(): static
     {
-        return static::of(Parser::parseWholeNumber($this->value));
+        $num = $this->value->value;
+        $pos = strpos($num, Number::DECIMAL_SYMBOL);
+
+        $integer = ($pos === false) ? $num : substr($num, 0, $pos);
+
+        return static::of($integer);
     }
 }

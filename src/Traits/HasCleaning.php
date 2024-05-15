@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Worksome\Number\Traits;
 
 use Worksome\Number\Number;
-use Worksome\Number\Parser;
 
 /**
  * @mixin Number
@@ -17,22 +16,23 @@ trait HasCleaning
      */
     public function clean(int $minScale): static
     {
-        $wholeNumber = Parser::parseWholeNumber($this);
-        $decimalNumber = Parser::parseDecimalNumber($this);
+        $wholeNumber = $this->extractInteger();
 
-        if ($decimalNumber === null) {
-            return static::of($wholeNumber);
+        if ($this->hasDecimal() === false) {
+            return $wholeNumber;
         }
+
+        $decimalNumber = $this->extractDecimal()->value->value;
 
         $decimalKeep = substr($decimalNumber, 0, $minScale);
         $decimalTail = substr($decimalNumber, $minScale);
         $decimalTail = rtrim($decimalTail, Number::ZERO);
 
         if ($minScale === 0 && $decimalTail === '') {
-            return static::of($wholeNumber);
+            return $wholeNumber;
         }
 
-        $cleaned = $wholeNumber . Number::DECIMAL_SYMBOL . $decimalKeep . $decimalTail;
+        $cleaned = $wholeNumber->value . Number::DECIMAL_SYMBOL . $decimalKeep . $decimalTail;
 
         return static::of($cleaned);
     }
