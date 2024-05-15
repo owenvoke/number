@@ -49,13 +49,7 @@ trait HasOutputTo
      */
     public function extractDecimal(): static
     {
-        [$whole, $decimal] = Parser::parseFragments($this->value);
-
-        if ($decimal === '') {
-            return static::zero();
-        }
-
-        return static::of($decimal);
+        return static::of(Parser::parseDecimalNumber($this->value) ?? '');
     }
 
     /**
@@ -63,12 +57,6 @@ trait HasOutputTo
      */
     public function extractInteger(): static
     {
-        [$whole, $decimal] = Parser::parseFragments($this->value);
-
-        if ($decimal === '') {
-            return static::zero();
-        }
-
-        return static::of($decimal);
+        return static::of(Parser::parseWholeNumber($this->value));
     }
 }

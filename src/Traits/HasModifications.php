@@ -43,10 +43,12 @@ trait HasModifications
      */
     public function increaseScale(int $scale): static
     {
-        [$whole, $decimal] = Parser::parseFragments($this->value);
-        $decimal = str_pad($decimal, $scale, Number::ZERO, STR_PAD_RIGHT);
+        $wholeNumber = Parser::parseWholeNumber($this->value);
+        $decimalNumber = Parser::parseDecimalNumber($this->value) ?? '';
 
-        $number = $whole . Number::DECIMAL_SYMBOL . $decimal;
+        $decimalNumber = str_pad($decimalNumber, $scale, Number::ZERO, STR_PAD_RIGHT);
+
+        $number = $wholeNumber . Number::DECIMAL_SYMBOL . $decimalNumber;
 
         return static::of($number);
     }

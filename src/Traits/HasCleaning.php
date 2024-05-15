@@ -17,9 +17,10 @@ trait HasCleaning
      */
     public function clean(int $minScale): static
     {
-        [$wholeNumber, $decimalNumber] = Parser::parseFragments($this);
+        $wholeNumber = Parser::parseWholeNumber($this);
+        $decimalNumber = Parser::parseDecimalNumber($this);
 
-        if ($decimalNumber === '') {
+        if ($decimalNumber === null) {
             return static::of($wholeNumber);
         }
 

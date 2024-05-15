@@ -9,27 +9,41 @@ use InvalidArgumentException;
 
 class Parser
 {
-    /**
-     * Parse the given number and extract the whole number and decimal number
-     *
-     * @return array<int, string>
-     */
-    public static function parseFragments(Number|BCNumber|string|int|float $num): array
+    public static function parseAsString(Number|BCNumber|string|int|float $num): string
     {
-        $num = (string) $num;
+        return is_float($num) ? static::floatToString($num) : (string) $num;
+    }
+
+    /**
+     * Parse the given number and extract the whole number.
+     *
+     * Example:
+     *      "1.5534" => "1"
+     *      "546.09" => "546"
+     *      "892021" => "892021"
+     */
+    public static function parseWholeNumber(Number|BCNumber|string|int|float $num): string
+    {
+        $num = static::parseAsString($num);
         $pos = strpos($num, Number::DECIMAL_SYMBOL);
-        $wholeNumber = $num;
-        $decimalNumber = '';
 
-        if ($pos !== false) {
-            $wholeNumber = substr($num, 0, $pos);
-            $decimalNumber = substr($num, $pos + 1);
-        }
+        return ($pos === false) ? $num : substr($num, 0, $pos);
+    }
 
-        return [
-            $wholeNumber,
-            $decimalNumber,
-        ];
+    /**
+     * Parse the given number and extract the whole number.
+     *
+     * Example:
+     *      "1.5534" => "5534"
+     *      "546.09" => "09"
+     *      "892021" => null
+     */
+    public static function parseDecimalNumber(Number|BCNumber|string|int|float $num): ?string
+    {
+        $num = static::parseAsString($num);
+        $pos = strpos($num, Number::DECIMAL_SYMBOL);
+
+        return ($pos === false) ? null : substr($num, $pos + 1);
     }
 
     /**

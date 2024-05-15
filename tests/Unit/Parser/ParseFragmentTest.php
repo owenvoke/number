@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 use Worksome\Number\Parser;
 
-test('Number can parse fragments', function (string $input, string $wholeNumber, string $decimalNumber) {
-    $result = Parser::parseFragments($input);
+test('Number can parse fragments', function (string $input, string $expectWhole, ?string $expectDecimal) {
+    $actualWhole = Parser::parseWholeNumber($input);
+    $actualDecimal = Parser::parseDecimalNumber($input);
 
-    expect($result)->toBe([
-        $wholeNumber,
-        $decimalNumber,
-    ]);
+    expect($actualWhole)->toBe($expectWhole);
+    expect($actualDecimal)->toBe($expectDecimal);
 })->with([
-    ['12', '12', ''],
+    ['12', '12', null],
     ['12.34', '12', '34'],
     ['435435.345346345', '435435', '345346345'],
     ['9.8', '9', '8'],
